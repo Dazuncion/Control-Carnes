@@ -1,0 +1,37 @@
+.card-carne {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  background-color: white;
+}
+
+.card-carne img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.bajo-stock {
+  color: red;
+  font-weight: bold;
+}
+
+.stock-ok {
+  color: green;
+}
+
+button {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #b71c1c;
+}
