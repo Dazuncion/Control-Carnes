@@ -15,7 +15,7 @@ import Reportes from './pages/Reportes';
 import './App.css';
 
 // URL DEL BACKEND
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://api-control-carnes.onrender.com';
 
 export default function ControlCarnico() {
   // --- 1. ESTADO GLOBAL ---
