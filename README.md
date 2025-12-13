@@ -31,43 +31,6 @@ La API que procesa los datos y conecta con la nube:
 * **Modelado:** Mongoose (Schemas estrictos para Ventas y Compras).
 * **Seguridad/Config:** Dotenv, CORS.
 
----
-
-## 📂 Estructura del Proyecto
-
-El proyecto está organizado como un repositorio unificado (Monorepo):
-
-
-Control-Carnes/
-│
-├── /backend                 # 🧠 Lógica del Servidor (API)
-│   ├── /models              # Esquemas de Base de Datos
-│   │   ├── Compra.js        # Modelo de Compras (Proveedores, Tara, Pesos)
-│   │   └── Venta.js         # Modelo de Ventas (Clientes, Mermas, Pagos)
-│   ├── /routes              # Rutas de la API (Endpoints)
-│   │   ├── compras.js       # GET, POST, PUT, DELETE Compras
-│   │   └── ventas.js        # GET, POST, PUT, DELETE Ventas
-│   ├── .env                 # (NO INCLUIDO) Variables de entorno y llaves
-│   └── server.js            # Punto de entrada y configuración del servidor
-│
-└── /Fronted                 # 🎨 Interfaz de Usuario (React)
-    ├── /public              # Archivos estáticos (Manifest, Iconos)
-    ├── /src                 # Código fuente
-    │   ├── /components      # Componentes Reutilizables
-    │   │   ├── Modales.js   # Modales de Pago, Devolución y Confirmación
-    │   │   └── Navbar.js    # Barra de navegación inferior móvil
-    │   ├── /data            # Configuración estática
-    │   │   └── config.js    # Constantes de mermas y tipos de carne
-    │   ├── /pages           # Vistas Principales
-    │   │   ├── Compras.js   # Formulario y lista de compras
-    │   │   ├── Dashboard.js # Gráficos y resumen financiero
-    │   │   ├── Reportes.js  # Exportación a Excel y Rankings
-    │   │   └── Ventas.js    # Formulario de venta y listado diario
-    │   ├── /styles          # Estilos CSS personalizados
-    │   └── App.js           # Orquestador principal y conexión a API
-    └── package.json         # Dependencias del cliente
-
-
 🚀 Guía de Instalación Local
 Sigue estos pasos para levantar el proyecto en tu computadora:
 
