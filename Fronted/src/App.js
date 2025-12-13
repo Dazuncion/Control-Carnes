@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './context/AuthContext';
 
-// Importa tus páginas existentes
+
 import Dashboard from './pages/Dashboard';
 import Ventas from './pages/Ventas';
 import Compras from './pages/Compras';
@@ -10,8 +10,8 @@ import Reportes from './pages/Reportes';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Navbar from './components/Navbar';
+import VerifyEmail from './pages/VerifyEmail';
 
-// Componente para proteger rutas (Ruta Privada)
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
   if (loading) return <div>Cargando...</div>;
@@ -29,6 +29,7 @@ function AppContent() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verify/:token" element={<VerifyEmail />} />
           
           {/* Rutas Protegidas */}
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />

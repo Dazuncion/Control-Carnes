@@ -2,9 +2,8 @@ const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer'); // Importar
-const crypto = require('crypto'); // Importar nativo de Node
-
+const nodemailer = require('nodemailer'); 
+const crypto = require('crypto'); 
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -14,7 +13,6 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-
 router.post('/register', async (req, res) => {
     const { nombre, email, password, nombreNegocio } = req.body;
     try {
@@ -23,7 +21,6 @@ router.post('/register', async (req, res) => {
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-
         
         const verificationToken = crypto.randomBytes(32).toString('hex');
 
@@ -36,24 +33,26 @@ router.post('/register', async (req, res) => {
         });
 
         await user.save();
-
        
+        // Intenta enviar correo si las variables de entorno están bien en Render
+        // Si no están configuradas, no romperá el registro gracias al try/catch
         const urlVerificacion = `${process.env.FRONTEND_URL}/verify/${verificationToken}`;
+        try {
+            await transporter.sendMail({
+                from: '"Control Carnes" <no-reply@controlcarnes.com>',
+                to: email,
+                subject: 'Verifica tu cuenta - Control Carnes 🥩',
+                html: `
+                    <h3>Hola ${nombre},</h3>
+                    <p>Activa tu cuenta aquí:</p>
+                    <a href="${urlVerificacion}">Verificar Cuenta</a>
+                `
+            });
+        } catch (mailError) {
+            console.log("No se pudo enviar correo (verificar vars en Render). Usuario creado igual.");
+        }
 
-        await transporter.sendMail({
-            from: '"Control Carnes" <no-reply@controlcarnes.com>',
-            to: email,
-            subject: 'Verifica tu cuenta - Control Carnes 🥩',
-            html: `
-                <h3>Hola ${nombre},</h3>
-                <p>Gracias por registrarte. Para activar tu cuenta, haz clic en el siguiente enlace:</p>
-                <a href="${urlVerificacion}" style="background: orange; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Verificar Cuenta</a>
-                <p>O copia este link: ${urlVerificacion}</p>
-            `
-        });
-
-      .
-        res.json({ msg: 'Registro exitoso. Revisa tu correo para verificar tu cuenta.' });
+        res.json({ msg: 'Registro exitoso. Ya puedes iniciar sesión.' });
 
     } catch (err) {
         console.error(err);
@@ -61,15 +60,12 @@ router.post('/register', async (req, res) => {
     }
 });
 
-
 router.get('/verify/:token', async (req, res) => {
     try {
         const token = req.params.token;
-      
         const user = await User.findOne({ verificationToken: token });
 
-        if (!user) return res.status(400).json({ msg: 'Token inválido o expirado' });
-
+        if (!user) return res.status(400).json({ msg: 'Token inválido' });
       
         user.isVerified = true;
         user.verificationToken = undefined; 
@@ -81,14 +77,14 @@ router.get('/verify/:token', async (req, res) => {
     }
 });
 
-
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ msg: 'Credenciales inválidas' });
 
-   
+        // IMPORTANTE: Si en Render no configuraste el email, esto bloqueará el login.
+        // Asegúrate de que tu modelo User.js tenga "default: true" o configura el email en Render.
         if (!user.isVerified) {
             return res.status(400).json({ msg: 'Tu cuenta no ha sido verificada. Revisa tu correo.' });
         }

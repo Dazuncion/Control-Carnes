@@ -6,9 +6,9 @@ const UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     nombreNegocio: { type: String },
     fechaRegistro: { type: Date, default: Date.now },
-    // --- NUEVOS CAMPOS ---
-    isVerified: { type: Boolean, default: false }, // Por defecto es falso
-    verificationToken: { type: String } // Aquí guardaremos el código secreto
+    // --- CORRECCIÓN: true por defecto para evitar bloqueo si falla el email ---
+    isVerified: { type: Boolean, default: true }, 
+    verificationToken: { type: String } 
 });
 
 module.exports = mongoose.model('User', UserSchema);

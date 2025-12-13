@@ -1,9 +1,10 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-// Configuración inicial de Axios
+// Configuración de Axios para producción
 const api = axios.create({
-  baseURL: 'https://api-control-carnes.onrender.com' // O tu URL de Render en producción
+  // --- CAMBIO: Usar URL de Render + /api ---
+  baseURL: 'https://api-control-carnes.onrender.com/api' 
 });
 
 export const AuthContext = createContext();
@@ -13,11 +14,9 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     if (token) {
       api.defaults.headers.common['x-auth-token'] = token;
-     
       setUser({ token }); 
     } else {
       delete api.defaults.headers.common['x-auth-token'];
@@ -40,9 +39,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (datos) => {
     try {
       const res = await api.post('/auth/register', datos);
-      localStorage.setItem('token', res.data.token);
-      setToken(res.data.token);
-      return { success: true };
+      return { success: true, data: res.data };
     } catch (error) {
       return { success: false, msg: error.response?.data?.msg || 'Error al registrarse' };
     }
