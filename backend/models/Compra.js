@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const CompraSchema = new mongoose.Schema({
+    usuario: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     fecha: { type: String, required: true },
     proveedor: { type: String, required: true },
     pesoBruto: { type: Number, required: true },
@@ -12,7 +17,7 @@ const CompraSchema = new mongoose.Schema({
     saldo: { type: Number, default: 0 },
     pagado: { type: Number, default: 0 },
     tipoPago: { type: String, default: 'total' },
-    // Historial de pagos
+   
     pagos: [{ monto: Number, fecha: String }]
 }, { timestamps: true });
 

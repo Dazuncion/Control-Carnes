@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 
 const VentaSchema = new mongoose.Schema({
+    usuario: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+
     fecha: { 
         type: String, 
         required: true 
