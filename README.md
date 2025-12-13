@@ -33,6 +33,7 @@ cd Control-Carnes
 
 cd backend
 npm install
+
 Crea un archivo llamado .env dentro de la carpeta /backend y agrega tus credenciales:
 
 Fragmento de código
@@ -40,23 +41,33 @@ Fragmento de código
 PORT=5000
 # Reemplaza con tu propia cadena de conexión de MongoDB Atlas o Local
 MONGO_URI=mongodb+srv://TU_USUARIO:TU_PASSWORD@tu-cluster.mongodb.net/control-carnes
+
 Inicia el servidor:
+
 npm start
+
 # Debería decir: "🚀 Server en http://localhost:5000" y "✅ Base de Datos MongoDB Conectada"
 
 
 3. Configurar el Frontend (Cliente)
 Abre una nueva terminal (manteniendo el backend corriendo) y navega a la carpeta del frontend:
+
 cd Fronted
+
 npm install
+
 Configuración de la API: En lugar de modificar el código directamente, crea un archivo .env dentro de la carpeta /Fronted para definir a dónde se conectará la aplicación:
 
 Fragmento de código
 
 REACT_APP_API_URL=http://localhost:5000/api
+
 (Nota: Si despliegas a producción, cambiarás esta variable por la URL de tu servidor en la nube).
+
 Inicia la aplicación:
+
 npm start
+
 # La app se abrirá automáticamente en http://localhost:3000
 
 🌍 Despliegue (Producción)
